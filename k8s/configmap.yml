@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-cfg
+  namespace: notes-k8s-app
+data:
+  MYSQL_DATABASE: notesdb
+  MYSQL_HOST: mysql
+  MYSQL_PORT: "3306"

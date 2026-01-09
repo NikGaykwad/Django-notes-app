@@ -1,0 +1,13 @@
+# k8s/app/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: notes-k8s-app
+  namespace: notes-k8s-app
+spec:
+  selector:
+    app: notes-k8s-app
+  ports:
+    - port: 8000
+      targetPort: 8000
+  type: ClusterIP
