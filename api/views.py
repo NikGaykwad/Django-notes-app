@@ -70,7 +70,34 @@ def getNote(request, pk):
 @api_view(['POST'])
 def createNote(request):
     data = request.data
+    note = Note.objects.create(
+        body=data.get('content')
+    )
+    serializer = NoteSerializer(note, many=False)
+    return Response(serializer.data)
 
-    # Frontend sends "content"
-    # Database/model uses "body"
+
+# -------------------------------
+# UPDATE NOTE
+# -------------------------------
+@api_view(['PUT'])
+def updateNote(request, pk):
+    data = request.data
+    note = Note.objects.get(id=pk)
+    serializer = NoteSerializer(instance=note, data=data)
+
+    if serializer.is_valid():
+        serializer.save()
+
+    return Response(serializer.data)
+
+
+# -------------------------------
+# DELETE NOTE
+# -------------------------------
+@api_view(['DELETE'])
+def deleteNote(request, pk):
+    note = Note.objects.get(id=pk)
+    note.delete()
+    return Response("Note deleted successfully")
 
