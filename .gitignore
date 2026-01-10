@@ -26,6 +26,11 @@ __pycache__/
 *.pyc
 .env
 
+# Docker Volumes
+data/
+data/mysql/
+data/mysql/db/
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

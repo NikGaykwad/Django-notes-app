@@ -1,3 +1,8 @@
-FROM nginx:1.23.3-alpine
+FROM nginx:alpine
 
-COPY ./default.conf /etc/nginx/conf.d/default.conf
+# Copy nginx config
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+
+# Copy React build
+COPY mynotes/build /usr/share/nginx/html
+

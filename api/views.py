@@ -4,49 +4,18 @@ from .serializers import NoteSerializer
 from .models import Note
 
 
-# -------------------------------
-# API ROUTES (for reference)
-# -------------------------------
 @api_view(['GET'])
 def getRoutes(request):
     routes = [
-        {
-            'Endpoint': '/notes/',
-            'method': 'GET',
-            'body': None,
-            'description': 'Returns all notes'
-        },
-        {
-            'Endpoint': '/notes/<id>/',
-            'method': 'GET',
-            'body': None,
-            'description': 'Returns a single note'
-        },
-        {
-            'Endpoint': '/notes/create/',
-            'method': 'POST',
-            'body': {'content': 'note text'},
-            'description': 'Create a new note'
-        },
-        {
-            'Endpoint': '/notes/<id>/update/',
-            'method': 'PUT',
-            'body': {'content': 'updated text'},
-            'description': 'Update a note'
-        },
-        {
-            'Endpoint': '/notes/<id>/delete/',
-            'method': 'DELETE',
-            'body': None,
-            'description': 'Delete a note'
-        },
+        {'Endpoint': '/notes/', 'method': 'GET'},
+        {'Endpoint': '/notes/<id>/', 'method': 'GET'},
+        {'Endpoint': '/notes/create/', 'method': 'POST'},
+        {'Endpoint': '/notes/<id>/update/', 'method': 'PUT'},
+        {'Endpoint': '/notes/<id>/delete/', 'method': 'DELETE'},
     ]
     return Response(routes)
 
 
-# -------------------------------
-# GET ALL NOTES
-# -------------------------------
 @api_view(['GET'])
 def getNotes(request):
     notes = Note.objects.all().order_by('-created')
@@ -54,9 +23,6 @@ def getNotes(request):
     return Response(serializer.data)
 
 
-# -------------------------------
-# GET SINGLE NOTE
-# -------------------------------
 @api_view(['GET'])
 def getNote(request, pk):
     note = Note.objects.get(id=pk)
@@ -64,27 +30,22 @@ def getNote(request, pk):
     return Response(serializer.data)
 
 
-# -------------------------------
-# CREATE NOTE
-# -------------------------------
+# ✅ FIXED
 @api_view(['POST'])
 def createNote(request):
     data = request.data
     note = Note.objects.create(
-        body=data.get('content')
+        body=data.get('body', "")
     )
     serializer = NoteSerializer(note, many=False)
     return Response(serializer.data)
 
 
-# -------------------------------
-# UPDATE NOTE
-# -------------------------------
+# ✅ FIXED
 @api_view(['PUT'])
 def updateNote(request, pk):
-    data = request.data
     note = Note.objects.get(id=pk)
-    serializer = NoteSerializer(instance=note, data=data)
+    serializer = NoteSerializer(instance=note, data=request.data, partial=True)
 
     if serializer.is_valid():
         serializer.save()
@@ -92,9 +53,6 @@ def updateNote(request, pk):
     return Response(serializer.data)
 
 
-# -------------------------------
-# DELETE NOTE
-# -------------------------------
 @api_view(['DELETE'])
 def deleteNote(request, pk):
     note = Note.objects.get(id=pk)
