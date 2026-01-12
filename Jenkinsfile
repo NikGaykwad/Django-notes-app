@@ -7,7 +7,7 @@ pipeline {
             steps {
                 echo "Cloning the code from GitHub"
                 git url: "https://github.com/NikGaykwad/Django-notes-app.git", branch: "main"
-                echo "Successfully cloned the code from GitHub"
+                echo "Successfully cloned the code from GitHub...!"
             }
         }
 
