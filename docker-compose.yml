@@ -20,7 +20,7 @@ services:
     build:
       context: .
     image: django_app
-    container_name: "django_cont"
+    container_name: "django_container"
     expose:
       - "8000"
     command: sh -c "python manage.py migrate --noinput && gunicorn notesapp.wsgi --bind 0.0.0.0:8000"
@@ -41,7 +41,7 @@ services:
 
   db:
     image: mysql:8.0
-    container_name: "db_cont"
+    container_name: "db_container"
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: test_db
